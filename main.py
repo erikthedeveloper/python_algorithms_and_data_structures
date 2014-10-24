@@ -1,28 +1,30 @@
-class LinkedList:
-    def __init__(self):
-        pass
-
-    def UnorderedUniqueContainer(self):
-        # return uuc
-        pass
+from uuc import UnorderedUniqueContainer, LinkedList
 
 
-def insert(uuc):
+def do_insert(uuc):
     pass
 
-def traverse(uuc):
+def do_traverse(uuc):
     pass
 
-def delete(uuc):
+def do_delete(uuc):
     pass
 
-def retrieve(uuc):
+def do_retrieve(uuc):
     pass
 
+class Student:
+    def __init__(self, name):
+        self.name = name
 
 def main():
-    uuc = LinkedList.UnorderedUniqueContainer()
-    insert(uuc)
-    traverse(uuc)
-    delete(uuc)
-    retrieve(uuc)
+    linked = LinkedList()
+    joe = Student('Joe')
+    linked.insert(joe)
+    # uuc = LinkedList()
+    # do_insert(uuc)
+    # do_traverse(uuc)
+    # do_delete(uuc)
+    # do_retrieve(uuc)
+
+main()
