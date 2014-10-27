@@ -8,27 +8,27 @@ class LinkedList(UnorderedUniqueContainer):
     """
 
     def __init__(self):
-        self.first = None
-        self.node_count = 0
+        self._first = None
+        self._node_count = 0
 
     def get_first(self):
-        return self.first
+        return self._first
 
     def set_first(self, node):
         """
         :param node:
         :type node: Node
         """
-        self.first = node
+        self._first = node
 
     def insert(self, item):
         new_node = Node()
         new_node.set_item(item)
 
-        if self.first is not None:
+        if self.get_first() is not None:
             new_node.set_next(self.first)
         self.set_first(new_node)
-        self.node_count += 1
+        self._node_count += 1
 
     def size(self):
-        return self.node_count
+        return self._node_count
