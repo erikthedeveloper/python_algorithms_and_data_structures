@@ -2,7 +2,7 @@ import unittest
 from linked_list import LinkedList
 
 
-class TestMyStack(unittest.TestCase):
+class TestLinkedList(unittest.TestCase):
     def test_inserting_item_into_empty_container(self):
         linked_list = LinkedList()
         some_item = {'foo': 'bar'}
@@ -58,11 +58,34 @@ class TestMyStack(unittest.TestCase):
         linked_list.insert({'foo5': 'bar'})
         self.assertTrue(linked_list.delete(delete_me))
 
-    # TODO: test traverse(callback)
+    def test_traverse_method(self):
+        linked_list = LinkedList()
 
-    # TODO: test_exists(self, item):
+        the_string = "A nasty string   "
+        linked_list.insert(the_string)
+        self.assertEqual(the_string, linked_list.get_first().item)
 
-    # TODO: test_retrieve(self, item):
+        linked_list.traverse(lambda string_item: string_item.rstrip())
+
+        self.assertEqual(the_string.rstrip(), linked_list.get_first().item)
+
+    def test_exists_method(self):
+        linked_list = LinkedList()
+        find_me = {'foo4': 'bar', 'bar': 123}
+
+        self.assertFalse(linked_list.exists(find_me))
+
+        linked_list.insert(find_me)
+        self.assertTrue(linked_list.exists(find_me))
+
+    def test_retrieve_method(self):
+        linked_list = LinkedList()
+        find_me = {'foo4': 'bar', 'bar': 123}
+
+        self.assertFalse(linked_list.retrieve(find_me))
+
+        linked_list.insert(find_me)
+        self.assertEqual(find_me, linked_list.retrieve(find_me))
 
 
 

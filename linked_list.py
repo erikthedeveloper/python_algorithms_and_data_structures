@@ -30,28 +30,41 @@ class LinkedList(UnorderedUniqueContainer):
             new_node.set_next(self.get_first())
         self.set_first(new_node)
         self._node_count += 1
+        return True
 
     def traverse(self, callback):
         current = self.get_first()
         while current:
-            callback(current.item)
+            current.item = callback(current.item)
             current = current.get_next()
 
     def delete(self, dummy_item):
         current = self.get_first()
         if current.item == dummy_item:
             self.set_first(current.next)
+            self._node_count -= 1
             return True
 
         while current.next:
             if current.next.item == dummy_item:
                 current.next = current.next.next
+                self._node_count -= 1
                 return True
             current = current.next
         return False
 
-    def retrieve(self):
-        pass
+    def retrieve(self, dummy_item):
+        if not self.exists(dummy_item):
+            return False
+
+        retrieved_item = False
+        current = self.get_first()
+        while current:
+            if current.item == dummy_item:
+                retrieved_item = current.item
+                break
+            current = current.get_next()
+        return retrieved_item
 
     def exists(self, item):
         current = self.get_first()
