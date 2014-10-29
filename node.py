@@ -7,7 +7,7 @@ class Node:
         self.item = None
         self.next = None
 
-    def set_item(self):
+    def get_item(self):
         return self.item
 
     def set_item(self, item):
