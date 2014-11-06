@@ -2,25 +2,28 @@ from uuc import UnorderedUniqueContainer
 
 
 class Bst(UnorderedUniqueContainer):
-    def size(self):
-        pass
-
-    def exists(self, item):
+    def __init__(self):
+        self._size = 0
         pass
 
     def retrieve(self, item):
         pass
 
-    def insert(self, item):
-        pass
+    def size(self):
+        return self._size
 
-    def delete(self, item):
+    def exists(self, item):
         pass
 
     def traverse(self, callback):
         pass
 
-    def __init__(self):
+    def insert(self, item):
+        self._size += 1
+        pass
+
+    def delete(self, item):
+        self._size -= 1
         pass
 
 
