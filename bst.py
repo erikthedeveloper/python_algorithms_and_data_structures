@@ -27,9 +27,9 @@ class Bst(UnorderedUniqueContainer):
     def insert(self, item):
         if self._root is None:
             self._root = BstNode(item)
+            return True
         else:
-            self._root.insert(item)
-        return True
+            return self._root.insert(item)
 
     def delete(self, dummy_item):
         if not self.exists(dummy_item) or self.empty():
@@ -69,13 +69,15 @@ class BstNode:
         if item < self.item:
             if self.left is None:
                 self.left = BstNode(item)
+                return True
             else:
-                self.left.insert(item)
+                return self.left.insert(item)
         elif item > self.item:
             if self.right is None:
                 self.right = BstNode(item)
+                return True
             else:
-                self.right.insert(item)
+                return self.right.insert(item)
 
     def retrieve_node(self, dummy_item):
         if dummy_item == self.item:

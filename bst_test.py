@@ -16,10 +16,14 @@ class TestBst(unittest.TestCase):
         bst.insert(Student("Doe", "John", "223-123-1234", "john@gmail.com", 23))
         self.assertEqual(2, bst.size())
 
-    def test_inserting_item_into_empty_container(self):
+    def test_inserting_unique_and_duplicate_items(self):
         bst = Bst()
-        some_item = Student("Doe", "Jane", "123-123-1234", "jane@gmail.com", 23)
-        bst.insert(some_item)
+        self.assertTrue(bst.insert("a"))
+        self.assertTrue(bst.insert("b"))
+        self.assertFalse(bst.insert("b"))
+        self.assertTrue(bst.insert("c"))
+        self.assertFalse(bst.insert("a"))
+        self.assertEqual(3, bst.size())
 
     def test_finding_an_existing_element(self):
         bst = Bst()
