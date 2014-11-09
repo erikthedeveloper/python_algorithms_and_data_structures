@@ -6,20 +6,19 @@ from uuc import UnorderedUniqueContainer
 class Bst(UnorderedUniqueContainer):
     def __init__(self):
         self._root = None
-        pass
 
     def retrieve(self, dummy_item):
-        if self._root is None:
+        if self.empty():
             return False
         return self._root.retrieve(dummy_item)
 
     def size(self):
-        if self._root:
-            return self._root.size()
-        return 0
+        if self.empty():
+            return 0
+        return self._root.size()
 
     def exists(self, dummy_item):
-        if self._root is None:
+        if self.empty():
             return False
         return bool(self._root.exists(dummy_item))
 
@@ -27,27 +26,27 @@ class Bst(UnorderedUniqueContainer):
         pass
 
     def insert(self, item):
-        if self._root is None:
+        if self.empty():
             self._root = BstNode(item)
             return True
         else:
             return self._root.insert(item)
 
     def delete(self, dummy_item):
-        if not self.exists(dummy_item) or self.empty():
+        if not self.exists(dummy_item):
             return False
 
         if self._root.item == dummy_item:
+            # Found it! It was the root!
             self._root = None
-            # raise Exception("Found it! It was the root!")
             return True
 
-        # TODO: Rethink size() ... pass bst into node... or track size() for each Node?
+        # TODO: Delete that!
         delete_me = self._root.retrieve_node(dummy_item)
         return delete_me.delete()
 
     def empty(self):
-        return self.size() == 0
+        return self._root is None
 
 
 class BstNode:
