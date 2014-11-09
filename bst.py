@@ -31,9 +31,21 @@ class Bst(UnorderedUniqueContainer):
         self._size += 1
         return True
 
-    def delete(self, item):
-        self._size -= 1
-        return True
+    def delete(self, dummy_item):
+        if not self.exists(dummy_item) or self.empty():
+            return False
+
+        if self._root.item == dummy_item:
+            self._root = None
+            # raise Exception("Found it! It was the root!")
+            return True
+
+        # TODO: Rethink size() ... pass bst into node... or track size() for each Node?
+        delete_me = self._root.retrieve_node(dummy_item)
+        return delete_me.delete()
+
+    def empty(self):
+        return self.size() == 0
 
 
 class BstNode:
@@ -57,21 +69,36 @@ class BstNode:
             else:
                 self.right.insert(item)
 
-    def retrieve(self, dummy_item):
+    def retrieve_node(self, dummy_item):
         if dummy_item == self.item:
-            return self.item
+            return self
         if dummy_item < self.item:
             if self.left is None:
-                return self.item
+                return self
             else:
-                return self.left.retrieve(dummy_item)
+                return self.left.retrieve_node(dummy_item)
         elif dummy_item > self.item:
             if self.right is None:
-                return self.item
+                return self
             else:
-                return self.right.retrieve(dummy_item)
+                return self.right.retrieve_node(dummy_item)
         return False
 
-    def is_leaf(self):
+    def retrieve(self, dummy_item):
+        result_node = self.retrieve_node(dummy_item)
+        if result_node:
+            return result_node.item
+        else:
+            return False
+
+    def delete(self, dummy_item):
+        if self.is_leaf_node():
+            raise Exception("Attempting to delete self (as leaf_node)!")
+        # To delete self
+            # Find successor and replace self.item with successor.item
+            # Call delete successor
+        return
+
+    def is_leaf_node(self):
         return self.left is None and self.right is None
 

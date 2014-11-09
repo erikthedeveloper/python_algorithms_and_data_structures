@@ -46,8 +46,7 @@ class TestBst(unittest.TestCase):
         self.assertTrue(bst.exists(find_me))
 
     def test_deleting_an_item(self):
-        self.skipTest("Not yet implemented!")
-
+        self.skipTest("Duh")
         bst = Bst()
         jane = Student("Doe", "Jane", "123-123-1234", "jane@gmail.com", 23)
         john = Student("Doe", "John", "223-123-1234", "john@gmail.com", 23)
