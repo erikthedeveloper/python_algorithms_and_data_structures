@@ -50,7 +50,6 @@ class TestBst(unittest.TestCase):
         self.assertTrue(bst.exists(find_me))
 
     def test_deleting_an_item(self):
-        self.skipTest("Duh")
         bst = Bst()
         jane = Student("Doe", "Jane", "123-123-1234", "jane@gmail.com", 23)
         john = Student("Doe", "John", "223-123-1234", "john@gmail.com", 23)
@@ -64,9 +63,37 @@ class TestBst(unittest.TestCase):
         bst.insert(john)
         bst.insert(jake)
 
-        self.assertTrue(bst.exists(dummy_john))
+        self.assertEqual(3, bst.size())
         self.assertTrue(bst.delete(dummy_john))
         self.assertFalse(bst.exists(dummy_john))
+        self.assertEqual(2, bst.size())
+
+    def test_delete_under_more_complex_example(self):
+        bst = Bst()
+        # Comment out below as desired. Experiment like hell!
+        numbers = [
+            5,
+            2,
+            -4,
+            3,
+            12,
+            9,
+            21,
+            19,
+            25
+        ]
+
+        for n in numbers:
+            bst.insert(n)
+
+        self.assertEqual(len(numbers), bst.size())
+        self.assertTrue(bst.exists(12))
+
+        self.assertTrue(bst.delete(12))
+        self.assertFalse(bst.delete(12))
+
+        self.assertFalse(bst.exists(12))
+        self.assertEqual(len(numbers) - 1, bst.size())
 
     def test_traverse_method(self):
         self.skipTest("Not yet implemented! Need to write useful test.")
