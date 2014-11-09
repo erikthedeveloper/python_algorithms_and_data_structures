@@ -7,23 +7,8 @@ class Bst(UnorderedUniqueContainer):
     def __init__(self):
         self._root = None
 
-    def retrieve(self, dummy_item):
-        if self.empty():
-            return False
-        return self._root.retrieve(dummy_item)
-
-    def size(self):
-        if self.empty():
-            return 0
-        return self._root.size()
-
-    def exists(self, dummy_item):
-        if self.empty():
-            return False
-        return bool(self._root.exists(dummy_item))
-
-    def traverse(self, callback):
-        pass
+    def empty(self):
+        return self._root is None
 
     def insert(self, item):
         if self.empty():
@@ -31,6 +16,11 @@ class Bst(UnorderedUniqueContainer):
             return True
         else:
             return self._root.insert(item)
+
+    def retrieve(self, dummy_item):
+        if self.empty():
+            return False
+        return self._root.retrieve(dummy_item)
 
     def delete(self, dummy_item):
         if not self.exists(dummy_item):
@@ -45,8 +35,18 @@ class Bst(UnorderedUniqueContainer):
         delete_me = self._root.retrieve_node(dummy_item)
         return delete_me.delete()
 
-    def empty(self):
-        return self._root is None
+    def traverse(self, callback):
+        pass
+
+    def exists(self, dummy_item):
+        if self.empty():
+            return False
+        return bool(self._root.exists(dummy_item))
+
+    def size(self):
+        if self.empty():
+            return 0
+        return self._root.size()
 
 
 class BstNode:
@@ -54,17 +54,6 @@ class BstNode:
         self.left = None
         self.right = None
         self.item = item
-
-    def size(self):
-        size = 1
-        if self.left:
-            size += self.left.size()
-        if self.right:
-            size += self.right.size()
-        return size
-
-    def exists(self, dummy_item):
-        return bool(self.retrieve_node(dummy_item))
 
     def insert(self, item):
         # Enforce Uniqueness TODO: Use self.exists(item)
@@ -114,6 +103,17 @@ class BstNode:
         # Find successor and replace self.item with successor.item
         # Call delete successor
         return
+
+    def exists(self, dummy_item):
+        return bool(self.retrieve_node(dummy_item))
+
+    def size(self):
+        size = 1
+        if self.left:
+            size += self.left.size()
+        if self.right:
+            size += self.right.size()
+        return size
 
     def is_leaf_node(self):
         return self.left is None and self.right is None
