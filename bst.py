@@ -32,8 +32,7 @@ class Bst(UnorderedUniqueContainer):
             return True
 
         # TODO: Delete that!
-        delete_me = self._root.retrieve_node(dummy_item)
-        return delete_me.delete()
+        return self._root.delete(dummy_item, self._root)
 
     def traverse(self, callback):
         pass
@@ -96,13 +95,39 @@ class BstNode:
         else:
             return False
 
-    def delete(self, dummy_item):
-        if self.is_leaf_node():
-            raise Exception("Attempting to delete self (as leaf_node)!")
-        # To delete self
-        # Find successor and replace self.item with successor.item
-        # Call delete successor
-        return
+    def delete(self, dummy_item, parent):
+        if dummy_item < self.item:
+            if self.left:
+                return self.left.delete(dummy_item, self)
+            else:
+                return False
+        elif dummy_item > self.item:
+            if self.right:
+                return self.right.delete(dummy_item, self)
+            else:
+                return False
+        else:
+            if self.left and self.right:
+                self.item = self.right.smallest_child_node().item
+                self.right.delete(self.item, self)
+            elif parent.left == self:
+                if self.left:
+                    parent.left = self.left
+                else:
+                    parent.left = self.right
+            elif parent.right == self:
+                if self.left:
+                    parent.right = self.left
+                else:
+                    parent.right = self.right
+
+            return True
+
+    def smallest_child_node(self):
+        if self.left:
+            return self.left.smallest_child_node()
+        return self
+
 
     def exists(self, dummy_item):
         return bool(self.retrieve_node(dummy_item))
