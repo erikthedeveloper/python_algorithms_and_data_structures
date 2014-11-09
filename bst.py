@@ -19,7 +19,9 @@ class Bst(UnorderedUniqueContainer):
         return 0
 
     def exists(self, dummy_item):
-        return bool(self.retrieve(dummy_item))
+        if self._root is None:
+            return False
+        return bool(self._root.exists(dummy_item))
 
     def traverse(self, callback):
         pass
@@ -62,6 +64,9 @@ class BstNode:
             size += self.right.size()
         return size
 
+    def exists(self, dummy_item):
+        return bool(self.retrieve_node(dummy_item))
+
     def insert(self, item):
         # Enforce Uniqueness TODO: Use self.exists(item)
         if item == self.item:
@@ -82,16 +87,18 @@ class BstNode:
     def retrieve_node(self, dummy_item):
         if dummy_item == self.item:
             return self
+
         if dummy_item < self.item:
             if self.left is None:
-                return self
+                return False
             else:
                 return self.left.retrieve_node(dummy_item)
         elif dummy_item > self.item:
             if self.right is None:
-                return self
+                return False
             else:
                 return self.right.retrieve_node(dummy_item)
+
         return False
 
     def retrieve(self, dummy_item):
@@ -105,8 +112,8 @@ class BstNode:
         if self.is_leaf_node():
             raise Exception("Attempting to delete self (as leaf_node)!")
         # To delete self
-            # Find successor and replace self.item with successor.item
-            # Call delete successor
+        # Find successor and replace self.item with successor.item
+        # Call delete successor
         return
 
     def is_leaf_node(self):
