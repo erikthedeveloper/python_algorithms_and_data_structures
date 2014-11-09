@@ -5,7 +5,6 @@ from uuc import UnorderedUniqueContainer
 
 class Bst(UnorderedUniqueContainer):
     def __init__(self):
-        self._size = 0
         self._root = None
         pass
 
@@ -15,7 +14,9 @@ class Bst(UnorderedUniqueContainer):
         return self._root.retrieve(dummy_item)
 
     def size(self):
-        return self._size
+        if self._root:
+            return self._root.size()
+        return 0
 
     def exists(self, dummy_item):
         return bool(self.retrieve(dummy_item))
@@ -28,7 +29,6 @@ class Bst(UnorderedUniqueContainer):
             self._root = BstNode(item)
         else:
             self._root.insert(item)
-        self._size += 1
         return True
 
     def delete(self, dummy_item):
@@ -53,6 +53,14 @@ class BstNode:
         self.left = None
         self.right = None
         self.item = item
+
+    def size(self):
+        size = 1
+        if self.left:
+            size += self.left.size()
+        if self.right:
+            size += self.right.size()
+        return size
 
     def insert(self, item):
         # Enforce Uniqueness TODO: Use self.exists(item)
