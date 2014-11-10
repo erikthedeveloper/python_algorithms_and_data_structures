@@ -241,27 +241,23 @@ class TestBst(unittest.TestCase):
         self.assertFalse(bst.exists(target))
         self.assertEqual(len(numbers) - 1, bst.size())
 
-    def test_traverse_method(self):
-        self.skipTest("Not yet implemented! Need to write useful test.")
-
+    def test_traverse_method_used_from_outside_collaborator(self):
         bst = Bst()
 
         characters = ["a", "b", "c"]
         for c in characters:
             bst.insert(c)
 
-        the_traversed_string = ""
-        # def append_to(new_string):
-        #     return string += new_string
-        # bst.traverse(lambda current_item: the_traversed_string)
-        self.assertEqual("abc", the_traversed_string)
+        class StringMaster:
+            def __init__(self):
+                self.the_string = ""
+            def add_to(self, add_string):
+                self.the_string += add_string
 
+        string_master = StringMaster()
 
-# TODO: Write tests for BstNode or remove block
-# class TestBstNode(unittest.TestCase):
-#     def test_container_size_is_represented(self):
-#         node = BstNode("Some Item")
-#         self.assertIsInstance(node, BstNode)
+        bst.traverse(string_master.add_to)
+        self.assertEqual("abc", string_master.the_string)
 
 
 if __name__ == '__main__':

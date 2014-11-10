@@ -40,8 +40,9 @@ class Bst(UnorderedUniqueContainer):
         return self._root.delete(dummy_item, self._root)
 
     def traverse(self, callback):
-        # TODO: Traverse that!
-        pass
+        if self.empty():
+            return False
+        return self._root.traverse(callback)
 
     def exists(self, dummy_item):
         if self.empty():
@@ -120,6 +121,15 @@ class BstNode:
             parent.right = self.left if self.left else  self.right
         # Leaf node case taken care of implicitly in above 2 cases due assigning parent.left to self.left when self.left = None ...
 
+        return True
+
+    def traverse(self, callable_method):
+        # In order traversal
+        if self.left:
+            self.left.traverse(callable_method)
+        callable_method(self.item)
+        if self.right:
+            self.right.traverse(callable_method)
         return True
 
     def smallest_child_node(self):
