@@ -98,6 +98,7 @@ class TestBst(unittest.TestCase):
     def test_deleting_with_no_children(self):
         bst = Bst()
         # Comment out below as desired. Experiment like hell!
+        # Showing number of children...
         numbers = [
             5,  # 1
             12, # 2
@@ -125,6 +126,7 @@ class TestBst(unittest.TestCase):
     def test_deleting_with_one_child(self):
         bst = Bst()
         # Comment out below as desired. Experiment like hell!
+        # Showing number of children...
         numbers = [
             5,  # 1
             12, # 2
@@ -152,6 +154,7 @@ class TestBst(unittest.TestCase):
     def test_deleting_with_two_children(self):
         bst = Bst()
         # Comment out below as desired. Experiment like hell!
+        # Showing number of children...
         numbers = [
             5,  # 1
             12, # 2
@@ -182,8 +185,10 @@ class TestBst(unittest.TestCase):
         self.assertTrue(first_bst.delete(1))
         self.assertEqual(0, first_bst.size())
 
+        # This below... this one is the real kicker ;)
         bst = Bst()
         # Comment out below as desired. Experiment like hell!
+        # Showing number of children...
         numbers = [
             5,  # 1
             12, # 2
