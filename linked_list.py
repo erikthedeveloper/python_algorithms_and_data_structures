@@ -1,5 +1,5 @@
 from uuc import UnorderedUniqueContainer
-from node import Node
+
 
 class LinkedList(UnorderedUniqueContainer):
     """
@@ -13,10 +13,10 @@ class LinkedList(UnorderedUniqueContainer):
     def insert(self, item):
         # Returns False on duplicate
         new_node = Node()
-        new_node.set_item(item)
+        new_node.item = item
 
         if self._first is not None:
-            new_node.set_next(self._first)
+            new_node.next = self._first
         self._first = new_node
         self._node_count += 1
         return True
@@ -25,7 +25,7 @@ class LinkedList(UnorderedUniqueContainer):
         current = self._first
         while current:
             current.item = callback(current.item)
-            current = current.get_next()
+            current = current.next
 
     def delete(self, dummy_item):
         if not self.exists(dummy_item) or self._first is None:
@@ -55,7 +55,7 @@ class LinkedList(UnorderedUniqueContainer):
             if current.item == dummy_item:
                 retrieved_item = current.item
                 break
-            current = current.get_next()
+            current = current.next
         return retrieved_item
 
     def exists(self, item):
@@ -63,9 +63,18 @@ class LinkedList(UnorderedUniqueContainer):
         while current:
             if current.item == item:
                 return True
-            current = current.get_next()
+            current = current.next
         return False
 
     def size(self):
         return self._node_count
 
+    
+class Node:
+    """
+    Node implementation
+    """
+
+    def __init__(self):
+        self.item = None
+        self.next = None

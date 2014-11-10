@@ -88,8 +88,8 @@ def do_retrieve(uuc):
 
 def main():
 
-    uuc = Bst()
-    # uuc = LinkedList()
+    # uuc = Bst()
+    uuc = LinkedList()
 
     print section_header("Student List Fun (Assignment Part 02)", 20)
     time_master_start = time.time()
