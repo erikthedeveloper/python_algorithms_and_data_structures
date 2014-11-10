@@ -182,7 +182,6 @@ class TestBst(unittest.TestCase):
         self.assertTrue(first_bst.delete(1))
         self.assertEqual(0, first_bst.size())
 
-        self.skipTest("Need to handle deleting root node on non-empty BST")
         bst = Bst()
         # Comment out below as desired. Experiment like hell!
         numbers = [

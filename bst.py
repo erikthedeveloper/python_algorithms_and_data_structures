@@ -27,14 +27,20 @@ class Bst(UnorderedUniqueContainer):
             return False
 
         if self._root.item == dummy_item:
-            # Found it! It was the root!
-            self._root = None
-            return True
+            # Create a temporary "root" to encompass tree to accomodate for deleting root node as target
+            temp_node = BstNode("foo")
+            temp_node.left = self._root
 
-        # TODO: Delete that!
+            deleted = self._root.delete(dummy_item, temp_node)
+
+            # Set the "copied and altered" tree back to self._root
+            self._root = temp_node.left
+            return deleted
+
         return self._root.delete(dummy_item, self._root)
 
     def traverse(self, callback):
+        # TODO: Traverse that!
         pass
 
     def exists(self, dummy_item):
