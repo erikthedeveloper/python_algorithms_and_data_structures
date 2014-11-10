@@ -111,7 +111,6 @@ class BstNode:
 
         # Now we know this is the target (i.e. self.item == dummy_item)
         if self.left and self.right:
-            # Has Two Children
             # TODO - Refactor: Always using the "least of the greater than" will lead to an unbalanced tree.
             self.item = self.right.smallest_child_node().item
             self.right.delete(self.item, self)
@@ -119,6 +118,7 @@ class BstNode:
             parent.left = self.left if self.left else self.right
         elif parent.right == self:
             parent.right = self.left if self.left else  self.right
+        # Leaf node case taken care of implicitly in above 2 cases due assigning parent.left to self.left when self.left = None ...
 
         return True
 
@@ -126,7 +126,6 @@ class BstNode:
         if self.left:
             return self.left.smallest_child_node()
         return self
-
 
     def exists(self, dummy_item):
         return bool(self.retrieve_node(dummy_item))
