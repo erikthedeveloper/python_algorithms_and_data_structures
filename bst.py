@@ -96,32 +96,25 @@ class BstNode:
             return False
 
     def delete(self, dummy_item, parent):
-        if dummy_item < self.item:
-            if self.left:
-                return self.left.delete(dummy_item, self)
-            else:
-                return False
-        elif dummy_item > self.item:
-            if self.right:
-                return self.right.delete(dummy_item, self)
-            else:
-                return False
-        else:
-            if self.left and self.right:
-                self.item = self.right.smallest_child_node().item
-                self.right.delete(self.item, self)
-            elif parent.left == self:
-                if self.left:
-                    parent.left = self.left
-                else:
-                    parent.left = self.right
-            elif parent.right == self:
-                if self.left:
-                    parent.right = self.left
-                else:
-                    parent.right = self.right
+        if dummy_item < self.item and self.left:
+            return self.left.delete(dummy_item, self)
+        elif dummy_item > self.item and self.right:
+            return self.right.delete(dummy_item, self)
+        elif dummy_item != self.item:
+            return False
 
-            return True
+        # Now we know this is the target (i.e. self.item == dummy_item)
+        if self.left and self.right:
+            # Has Two Children
+            # TODO - Refactor: Always using the "least of the greater than" will lead to an unbalanced tree.
+            self.item = self.right.smallest_child_node().item
+            self.right.delete(self.item, self)
+        elif parent.left == self:
+            parent.left = self.left if self.left else self.right
+        elif parent.right == self:
+            parent.right = self.left if self.left else  self.right
+
+        return True
 
     def smallest_child_node(self):
         if self.left:
