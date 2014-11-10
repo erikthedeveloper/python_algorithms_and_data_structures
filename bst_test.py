@@ -95,6 +95,120 @@ class TestBst(unittest.TestCase):
         self.assertFalse(bst.exists(12))
         self.assertEqual(len(numbers) - 1, bst.size())
 
+    def test_deleting_with_no_children(self):
+        bst = Bst()
+        # Comment out below as desired. Experiment like hell!
+        numbers = [
+            5,  # 1
+            12, # 2
+            9,  # 1
+            7,  # 0
+            21, # 2
+            19, # 0
+            25  # 0
+        ]
+
+        for n in numbers:
+            bst.insert(n)
+
+        target = 7
+
+        self.assertEqual(len(numbers), bst.size())
+        self.assertTrue(bst.exists(target))
+
+        self.assertTrue(bst.delete(target))
+        self.assertFalse(bst.delete(target))
+
+        self.assertFalse(bst.exists(target))
+        self.assertEqual(len(numbers) - 1, bst.size())
+
+    def test_deleting_with_one_child(self):
+        bst = Bst()
+        # Comment out below as desired. Experiment like hell!
+        numbers = [
+            5,  # 1
+            12, # 2
+            9,  # 1
+            7,  # 0
+            21, # 2
+            19, # 0
+            25  # 0
+        ]
+
+        for n in numbers:
+            bst.insert(n)
+
+        target = 9
+
+        self.assertEqual(len(numbers), bst.size())
+        self.assertTrue(bst.exists(target))
+
+        self.assertTrue(bst.delete(target))
+        self.assertFalse(bst.delete(target))
+
+        self.assertFalse(bst.exists(target))
+        self.assertEqual(len(numbers) - 1, bst.size())
+
+    def test_deleting_with_two_children(self):
+        bst = Bst()
+        # Comment out below as desired. Experiment like hell!
+        numbers = [
+            5,  # 1
+            12, # 2
+            9,  # 1
+            7,  # 0
+            21, # 2
+            19, # 0
+            25  # 0
+        ]
+
+        for n in numbers:
+            bst.insert(n)
+
+        target = 12
+
+        self.assertEqual(len(numbers), bst.size())
+        self.assertTrue(bst.exists(target))
+
+        self.assertTrue(bst.delete(target))
+        self.assertFalse(bst.delete(target))
+
+        self.assertFalse(bst.exists(target))
+        self.assertEqual(len(numbers) - 1, bst.size())
+
+    def test_deleting_as_the_root_node(self):
+        first_bst = Bst()
+        first_bst.insert(1)
+        self.assertTrue(first_bst.delete(1))
+        self.assertEqual(0, first_bst.size())
+
+        self.skipTest("Need to handle deleting root node on non-empty BST")
+        bst = Bst()
+        # Comment out below as desired. Experiment like hell!
+        numbers = [
+            5,  # 1
+            12, # 2
+            9,  # 1
+            7,  # 0
+            21, # 2
+            19, # 0
+            25  # 0
+        ]
+
+        for n in numbers:
+            bst.insert(n)
+
+        target = 5
+
+        self.assertEqual(len(numbers), bst.size())
+        self.assertTrue(bst.exists(target))
+
+        self.assertTrue(bst.delete(target))
+        self.assertFalse(bst.delete(target))
+
+        self.assertFalse(bst.exists(target))
+        self.assertEqual(len(numbers) - 1, bst.size())
+
     def test_traverse_method(self):
         self.skipTest("Not yet implemented! Need to write useful test.")
 
