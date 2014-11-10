@@ -1,5 +1,6 @@
 import unittest
 from linked_list import LinkedList
+from student import Student, StudentFactory
 
 
 class TestLinkedList(unittest.TestCase):
@@ -7,7 +8,7 @@ class TestLinkedList(unittest.TestCase):
         linked_list = LinkedList()
         some_item = {'foo': 'bar'}
         linked_list.insert(some_item)
-        self.assertEqual(some_item, linked_list.get_first().item)
+        self.assertEqual(some_item, linked_list._first.item)
 
     def test_container_size_is_represented(self):
         linked_list = LinkedList()
@@ -58,16 +59,37 @@ class TestLinkedList(unittest.TestCase):
         linked_list.insert({'foo5': 'bar'})
         self.assertTrue(linked_list.delete(delete_me))
 
+    def test_deleting_an_item(self):
+        linked_list = LinkedList()
+        jane = Student("Doe", "Jane", "123-123-1234", "jane@gmail.com", 23)
+        john = Student("Doe", "John", "223-123-1234", "john@gmail.com", 23)
+        jake = Student("Doe", "Jake", "323-123-1234", "john@gmail.com", 23)
+
+        dummy_john = StudentFactory.create_dummy_from_ssn("223-123-1234")
+
+        self.assertFalse(linked_list.delete(dummy_john))
+
+        self.assertTrue(linked_list.insert(jane))
+        self.assertTrue(linked_list.insert(john))
+        self.assertTrue(linked_list.insert(jake))
+
+        # return
+
+        self.assertEqual(3, linked_list.size())
+        self.assertTrue(linked_list.delete(dummy_john))
+        self.assertFalse(linked_list.exists(dummy_john))
+        self.assertEqual(2, linked_list.size())
+
     def test_traverse_method(self):
         linked_list = LinkedList()
 
         the_string = "A nasty string   "
         linked_list.insert(the_string)
-        self.assertEqual(the_string, linked_list.get_first().item)
+        self.assertEqual(the_string, linked_list._first.item)
 
         linked_list.traverse(lambda string_item: string_item.rstrip())
 
-        self.assertEqual(the_string.rstrip(), linked_list.get_first().item)
+        self.assertEqual(the_string.rstrip(), linked_list._first.item)
 
     def test_exists_method(self):
         linked_list = LinkedList()

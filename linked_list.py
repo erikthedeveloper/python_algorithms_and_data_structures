@@ -1,7 +1,6 @@
 from uuc import UnorderedUniqueContainer
 from node import Node
 
-
 class LinkedList(UnorderedUniqueContainer):
     """
     :type first: Node
@@ -11,37 +10,30 @@ class LinkedList(UnorderedUniqueContainer):
         self._first = None
         self._node_count = 0
 
-    def get_first(self):
-        return self._first
-
-    def set_first(self, node):
-        """
-        :param node:
-        :type node: Node
-        """
-        self._first = node
-
     def insert(self, item):
         # Returns False on duplicate
         new_node = Node()
         new_node.set_item(item)
 
-        if self.get_first() is not None:
-            new_node.set_next(self.get_first())
-        self.set_first(new_node)
+        if self._first is not None:
+            new_node.set_next(self._first)
+        self._first = new_node
         self._node_count += 1
         return True
 
     def traverse(self, callback):
-        current = self.get_first()
+        current = self._first
         while current:
             current.item = callback(current.item)
             current = current.get_next()
 
     def delete(self, dummy_item):
-        current = self.get_first()
+        if not self.exists(dummy_item) or self._first is None:
+            return False
+
+        current = self._first
         if current.item == dummy_item:
-            self.set_first(current.next)
+            self._first = current.next
             self._node_count -= 1
             return True
 
@@ -58,7 +50,7 @@ class LinkedList(UnorderedUniqueContainer):
             return False
 
         retrieved_item = False
-        current = self.get_first()
+        current = self._first
         while current:
             if current.item == dummy_item:
                 retrieved_item = current.item
@@ -67,7 +59,7 @@ class LinkedList(UnorderedUniqueContainer):
         return retrieved_item
 
     def exists(self, item):
-        current = self.get_first()
+        current = self._first
         while current:
             if current.item == item:
                 return True
