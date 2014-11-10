@@ -27,7 +27,7 @@ class Bst(UnorderedUniqueContainer):
             return False
 
         if self._root.item == dummy_item:
-            # Create a temporary "root" to encompass tree to accomodate for deleting root node as target
+            # Create a temporary "root" to encompass tree to accommodate for deleting root node as target
             temp_node = BstNode("foo")
             temp_node.left = self._root
 
@@ -62,7 +62,6 @@ class BstNode:
         self.item = item
 
     def insert(self, item):
-        # Enforce Uniqueness TODO: Use self.exists(item)
         if item == self.item:
             return False
         if item < self.item:
@@ -110,7 +109,7 @@ class BstNode:
         elif dummy_item != self.item:
             return False
 
-        # Now we know this is the target (i.e. self.item == dummy_item)
+        # self.item == dummy_item
         if self.left and self.right:
             # TODO - Refactor: Always using the "least of the greater than" will lead to an unbalanced tree.
             self.item = self.right.smallest_child_node().item
@@ -118,8 +117,8 @@ class BstNode:
         elif parent.left == self:
             parent.left = self.left if self.left else self.right
         elif parent.right == self:
-            parent.right = self.left if self.left else  self.right
-        # Leaf node case taken care of implicitly in above 2 cases due assigning parent.left to self.left when self.left = None ...
+            parent.right = self.left if self.left else self.right
+        # Leaf node case implicitly covered in above 2 cases (assigning parent.left to self.left when self.left = None)
 
         return True
 
@@ -150,4 +149,3 @@ class BstNode:
 
     def is_leaf_node(self):
         return self.left is None and self.right is None
-

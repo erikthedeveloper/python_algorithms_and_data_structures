@@ -2,7 +2,7 @@
 
 import unittest
 
-from bst import Bst, BstNode
+from bst import Bst
 
 from student import Student, StudentFactory
 
