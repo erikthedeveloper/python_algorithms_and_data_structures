@@ -22,11 +22,11 @@ class LinkedList(UnorderedUniqueContainer):
     def traverse(self, callback):
         current = self._first
         while current:
-            current.item = callback(current.item)
+            callback(current.item)
             current = current.next
 
     def delete(self, dummy_item):
-        if not self.exists(dummy_item) or self._first is None:
+        if self._first is None:
             return False
 
         current = self._first
