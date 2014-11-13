@@ -123,6 +123,15 @@ class BstNode:
         return True
 
     def traverse(self, callable_method):
+        """
+        Traversals
+            In Order
+                left, self, right
+            Pre Order
+                self, left, right
+            Post Order
+                left, right, self
+        """
         # In order traversal
         if self.left:
             self.left.traverse(callable_method)
