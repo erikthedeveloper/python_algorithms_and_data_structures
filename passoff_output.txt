@@ -1,0 +1,45 @@
+➜  uuc_container git:(master) ✗ python main.py
+
+==================== Student List Fun BST (List Size: Small)
+=============== Insert
+Duplicate SSN (001-82-8856) for 001-82-8856 - (POTTS, DAMON)
+Num failed:  1
+Read Length: 30,000 | Results Length: 29,999
+Execution time for section: 0.822 seconds
+=============== Traverse
+Average age for 29,999 students: 42.9299309977
+Execution time for section: 0.181 seconds
+=============== Delete
+Could not find 010-16-5079 for delete!!
+Num failed:  1
+Execution time for section: 1.057 seconds
+=============== Retrieve
+Could not find 015-15-2536 for retrieve!!
+Could not find 998-14-3873 for retrieve!!
+Num failed:  2
+Average age for 10,078 students: 49.5376141326
+Execution time for section: 0.264 seconds
+==================== END Student List Fun
+Total Execution time: 6.241 seconds
+========================= Goodbye
+
+➜  uuc_container git:(master) ✗ python main.py
+
+==================== Student List Fun BST (List Size: Medium)
+=============== Insert
+Num failed:  47
+Read Length: 300,000 | Results Length: 299,953
+Execution time for section: 14.255 seconds
+=============== Traverse
+Average age for 299,953 students: 42.8198551106
+Execution time for section: 1.728 seconds
+=============== Delete
+Num failed:  8
+Execution time for section: 12.188 seconds
+=============== Retrieve
+Num failed:  12
+Average age for 99,301 students: 49.5199871083
+Execution time for section: 3.433 seconds
+==================== END Student List Fun
+Total Execution time: 79.842 seconds
+========================= Goodbye
