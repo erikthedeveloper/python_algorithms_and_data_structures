@@ -28,39 +28,68 @@ class HashTable(UnorderedUniqueContainer):
         """
         :param data_size: The size of the data to be stored
         :type data_size: int
-        :return:
         """
+        self._item_count = 0
+
         table_size = data_size * 2 + 1
         while not is_prime(table_size):
             table_size += 2
         self.table_size = table_size
-
-        self.table = []
-
-    def exists(self, item):
-        pass
+        self.table = [None] * self.table_size
 
     def size(self):
-        pass
+        return self._item_count
 
-    def insert(self, key, item):
-        index = self.key_to_hash(key)
-        while self.table[index] is not None:
+    def insert(self, item):
+        the_index = int(item) % self.table_size
+        while self.table[the_index] is not None:
             # Duplicate Insert - Bad!!!
-            if self.table[index] == item:
+            if self.table[the_index] == item:
                 return False
-            index += 1
-        self.table[index] = item
+            the_index += 1
+            # Reached end/max of table_size. Continue to beginning of table
+            if the_index >= self.table_size:
+                the_index -= self.table_size
+
+        self.table[the_index] = item
+        self._item_count += 1
         return True
 
-    def traverse(self, callback):
-        pass
+    def traverse(self, callable_method):
+        for i in range(self.table_size):
+            if self.table[i]:
+                callable_method(self.table[i])
+        return True
 
-    def delete(self, item):
-        pass
+    def delete(self, dummy_item):
+        the_index = int(dummy_item) % self.table_size
+        while self.table[the_index] is not None:
+            if self.table[the_index] == dummy_item:
+                self.table[the_index] = None
+                self._item_count -= 1
+                return True
+            the_index += 1
+            # Reached end/max of table_size. Continue to beginning of table
+            if the_index >= self.table_size:
+                the_index -= self.table_size
 
-    def retrieve(self, item):
-        pass
+        return False
 
-    def key_to_hash(self, key):
-        return key % self.table_size
+    def retrieve(self, dummy_item):
+        the_index = int(dummy_item) % self.table_size
+        while self.table[the_index] is not None:
+            # Duplicate Insert - Bad!!!
+            if self.table[the_index] == dummy_item:
+                return self.table[the_index]
+            the_index += 1
+            # Reached end/max of table_size. Continue to beginning of table
+            if the_index >= self.table_size:
+                the_index -= self.table_size
+
+        return False
+
+    def exists(self, dummy_item):
+        retrieved = self.retrieve(dummy_item)
+        if retrieved is False:
+            return False
+        return retrieved

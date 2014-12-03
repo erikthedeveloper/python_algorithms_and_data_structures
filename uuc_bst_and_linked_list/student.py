@@ -15,6 +15,9 @@ class Student:
         return "{ssn} - ({last_name}, {first_name})".format(
             **{'last_name': self.last_name, 'first_name': self.first_name, 'ssn': self.ssn})
 
+    def __int__(self):
+        return int(self.ssn.replace("-", ""))
+
     def __eq__(self, other):
         return self.ssn == other.ssn
 
