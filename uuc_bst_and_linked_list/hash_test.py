@@ -27,98 +27,103 @@ class TestHashTableMethods(unittest.TestCase):
 
 
 class TestHashTable(unittest.TestCase):
+
+    def _make_uuc(self, size):
+        """
+        This method should be overridden per UUC implementation (i.e. Hash requires size... for now at least)
+        """
+        # TODO: in that case the entire test suite should be extracted to a TestUuc and used as TestHashTable(TestUuc)...
+        # TODO: ... hmmm would need to be generalized/converted into some type of UUC Factory to account for "size"...
+        return HashTable(size)
+
     def _jane_john_and_jake(self):
         some_students = {
-            'jane': Student("Doe", "Jane", "123-123-1234", "jane@gmail.com", 23),
-            'john': Student("Doe", "John", "223-123-1234", "john@gmail.com", 23),
-            'jake': Student("Doe", "Jake", "323-123-1234", "john@gmail.com", 23)
+            'jane': Student("Johnson", "Jane", "123-123-1234", "jane@fakemail.com", 23),
+            'john': Student("Doe", "John", "223-123-1234", "john@fakemail.com", 28),
+            'jake': Student("Jerk", "Jake", "323-123-1234", "jake@fakemail.com", 47)
         }
         return some_students
 
     def test_inserting_unique_and_duplicate_items(self):
-        hash_table = HashTable(3)
+        uuc = self._make_uuc(3)
         some_students = self._jane_john_and_jake()
-        self.assertTrue(hash_table.insert(some_students['jane']))
-        self.assertTrue(hash_table.insert(some_students['john']))
-        self.assertFalse(hash_table.insert(some_students['john']))
-        self.assertTrue(hash_table.insert(some_students['jake']))
+        self.assertTrue(uuc.insert(some_students['jane']))
+        self.assertTrue(uuc.insert(some_students['john']))
+        self.assertFalse(uuc.insert(some_students['john']))
+        self.assertTrue(uuc.insert(some_students['jake']))
 
     def test_container_size_is_maintained_during_insertions(self):
-        hash_table = HashTable(3)
+        uuc = self._make_uuc(3)
         some_students = self._jane_john_and_jake()
-        self.assertEqual(0, hash_table.size())
 
-        self.assertTrue(hash_table.insert(some_students['jane']))
-        self.assertEqual(1, hash_table.size())
-
-        self.assertTrue(hash_table.insert(some_students['john']))
-        self.assertEqual(2, hash_table.size())
-
-        self.assertTrue(hash_table.insert(some_students['jake']))
-        self.assertEqual(3, hash_table.size())
+        self.assertEqual(0, uuc.size())
+        self.assertTrue(uuc.insert(some_students['jane']))
+        self.assertEqual(1, uuc.size())
+        self.assertTrue(uuc.insert(some_students['john']))
+        self.assertEqual(2, uuc.size())
+        self.assertTrue(uuc.insert(some_students['jake']))
+        self.assertEqual(3, uuc.size())
 
     def test_finding_an_existing_element(self):
-        hash_table = HashTable(3)
+        uuc = self._make_uuc(3)
         some_students = self._jane_john_and_jake()
 
         dummy_john = StudentFactory.create_dummy_from_ssn(some_students['john'].ssn)
 
-        hash_table.insert(some_students['jane'])
-        hash_table.insert(some_students['john'])
-        hash_table.insert(some_students['jake'])
+        uuc.insert(some_students['jane'])
+        uuc.insert(some_students['john'])
+        uuc.insert(some_students['jake'])
 
-        self.assertEqual(some_students['john'], hash_table.retrieve(dummy_john))
+        self.assertEqual(some_students['john'], uuc.retrieve(dummy_john))
 
     def test_checking_if_an_item_exists(self):
-        hash_table = HashTable(3)
+        uuc = self._make_uuc(3)
         some_students = self._jane_john_and_jake()
 
         dummy_john = StudentFactory.create_dummy_from_ssn(some_students['john'].ssn)
 
-        self.assertFalse(hash_table.exists(dummy_john))
-
-        hash_table.insert(some_students['jane'])
-        hash_table.insert(some_students['john'])
-        hash_table.insert(some_students['jake'])
-
-        self.assertTrue(hash_table.exists(dummy_john))
+        self.assertFalse(uuc.exists(dummy_john))
+        uuc.insert(some_students['jane'])
+        uuc.insert(some_students['john'])
+        uuc.insert(some_students['jake'])
+        self.assertTrue(uuc.exists(dummy_john))
 
     def test_deleting_an_item(self):
-        hash_table = HashTable(3)
+        uuc = self._make_uuc(3)
         some_students = self._jane_john_and_jake()
 
         dummy_john = StudentFactory.create_dummy_from_ssn("223-123-1234")
 
-        self.assertFalse(hash_table.delete(dummy_john))
+        self.assertFalse(uuc.delete(dummy_john))
 
-        hash_table.insert(some_students['jane'])
-        hash_table.insert(some_students['john'])
-        hash_table.insert(some_students['jake'])
+        uuc.insert(some_students['jane'])
+        uuc.insert(some_students['john'])
+        uuc.insert(some_students['jake'])
 
-        self.assertEqual(3, hash_table.size())
-        self.assertTrue(hash_table.delete(dummy_john))
-        self.assertFalse(hash_table.exists(dummy_john))
-        self.assertFalse(hash_table.delete(dummy_john))
-        self.assertEqual(2, hash_table.size())
+        self.assertEqual(3, uuc.size())
+        self.assertTrue(uuc.delete(dummy_john))
+        self.assertFalse(uuc.exists(dummy_john))
+        self.assertFalse(uuc.delete(dummy_john))
+        self.assertEqual(2, uuc.size())
 
     def test_traverse_method_used_from_outside_collaborator(self):
-        hash_table = HashTable(3)
+        uuc = self._make_uuc(3)
         some_students = self._jane_john_and_jake()
 
-        hash_table.insert(some_students['jane'])
-        hash_table.insert(some_students['john'])
-        hash_table.insert(some_students['jake'])
+        uuc.insert(some_students['jane'])
+        uuc.insert(some_students['john'])
+        uuc.insert(some_students['jake'])
 
         class StudentCollaborator:
             def __init__(self):
                 self.ssn_list = []
 
-            def add_to(self, student):
+            def add_to_ssn_list(self, student):
                 self.ssn_list.append(student.ssn)
 
         string_master = StudentCollaborator()
 
-        hash_table.traverse(string_master.add_to)
+        uuc.traverse(string_master.add_to_ssn_list)
         self.assertListEqual(
             sorted([some_students['jane'].ssn, some_students['john'].ssn, some_students['jake'].ssn]),
             sorted(string_master.ssn_list))
