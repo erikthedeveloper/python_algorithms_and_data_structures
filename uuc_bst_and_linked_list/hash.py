@@ -41,15 +41,11 @@ class HashTable(UnorderedUniqueContainer):
         return self._item_count
 
     def insert(self, item):
-        the_index = int(item) % self.table_size
+        the_index = self._index_from_int_able(item)
         while self.table[the_index] is not None:
-            # Duplicate Insert - Bad!!!
             if self.table[the_index] == item:
                 return False
-            the_index += 1
-            # Reached end/max of table_size. Continue to beginning of table
-            if the_index >= self.table_size:
-                the_index -= self.table_size
+            the_index = (the_index + 1) + (the_index % self.table_size)
 
         self.table[the_index] = item
         self._item_count += 1
@@ -62,34 +58,26 @@ class HashTable(UnorderedUniqueContainer):
         return True
 
     def delete(self, dummy_item):
-        the_index = int(dummy_item) % self.table_size
+        the_index = self._index_from_int_able(dummy_item)
         while self.table[the_index] is not None:
             if self.table[the_index] == dummy_item:
                 self.table[the_index] = None
                 self._item_count -= 1
                 return True
-            the_index += 1
-            # Reached end/max of table_size. Continue to beginning of table
-            if the_index >= self.table_size:
-                the_index -= self.table_size
-
+            the_index = (the_index + 1) + (the_index % self.table_size)
         return False
 
     def retrieve(self, dummy_item):
-        the_index = int(dummy_item) % self.table_size
+        the_index = self._index_from_int_able(dummy_item)
         while self.table[the_index] is not None:
-            # Duplicate Insert - Bad!!!
             if self.table[the_index] == dummy_item:
                 return self.table[the_index]
-            the_index += 1
-            # Reached end/max of table_size. Continue to beginning of table
-            if the_index >= self.table_size:
-                the_index -= self.table_size
-
+            the_index = (the_index + 1) + (the_index % self.table_size)
         return False
 
     def exists(self, dummy_item):
-        retrieved = self.retrieve(dummy_item)
-        if retrieved is False:
-            return False
-        return retrieved
+        return self.retrieve(dummy_item) is not False
+
+    def _index_from_int_able(self, dummy_item):
+        the_index = int(dummy_item) % self.table_size
+        return the_index
