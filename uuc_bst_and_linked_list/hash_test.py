@@ -128,6 +128,9 @@ class TestHashTable(unittest.TestCase):
             sorted([some_students['jane'].ssn, some_students['john'].ssn, some_students['jake'].ssn]),
             sorted(string_master.ssn_list))
 
+    def test_checking_if_an_item_exists_after_some_deletions(self):
+        self.skipTest("Need to write test that fails (i.e. breaking the bridge by deleting... looking for friend in mall etc...")
+
 
 if __name__ == '__main__':
     unittest.main()
