@@ -45,7 +45,8 @@ class HashTable(UnorderedUniqueContainer):
         while self.table[the_index] is not None:
             if self.table[the_index] == item:
                 return False
-            the_index = (the_index + 1) + (the_index % self.table_size)
+            the_index += 1
+            the_index %= self.table_size
 
         self.table[the_index] = item
         self._item_count += 1
@@ -61,10 +62,11 @@ class HashTable(UnorderedUniqueContainer):
         the_index = self._index_from_int_able(dummy_item)
         while self.table[the_index] is not None:
             if self.table[the_index] == dummy_item:
-                self.table[the_index] = None
+                self.table[the_index] = None  # TODO: Set to False? Slot not reusable to reduce lookup time.
                 self._item_count -= 1
                 return True
-            the_index = (the_index + 1) + (the_index % self.table_size)
+            the_index += 1
+            the_index %= self.table_size
         return False
 
     def retrieve(self, dummy_item):
@@ -72,12 +74,12 @@ class HashTable(UnorderedUniqueContainer):
         while self.table[the_index] is not None:
             if self.table[the_index] == dummy_item:
                 return self.table[the_index]
-            the_index = (the_index + 1) + (the_index % self.table_size)
+            the_index += 1
+            the_index %= self.table_size
         return False
 
     def exists(self, dummy_item):
         return self.retrieve(dummy_item) is not False
 
     def _index_from_int_able(self, dummy_item):
-        the_index = int(dummy_item) % self.table_size
-        return the_index
+        return int(dummy_item) % self.table_size
