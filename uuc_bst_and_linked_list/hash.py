@@ -61,8 +61,8 @@ class HashTable(UnorderedUniqueContainer):
     def delete(self, dummy_item):
         the_index = self._index_from_int_able(dummy_item)
         while self.table[the_index] is not None:
-            if self.table[the_index] == dummy_item:
-                self.table[the_index] = None  # TODO: Set to False? Slot not reusable to reduce lookup time.
+            if self.table[the_index] is not False and self.table[the_index] == dummy_item:
+                self.table[the_index] = False
                 self._item_count -= 1
                 return True
             the_index += 1
@@ -72,7 +72,7 @@ class HashTable(UnorderedUniqueContainer):
     def retrieve(self, dummy_item):
         the_index = self._index_from_int_able(dummy_item)
         while self.table[the_index] is not None:
-            if self.table[the_index] == dummy_item:
+            if self.table[the_index] is not False and self.table[the_index] == dummy_item:
                 return self.table[the_index]
             the_index += 1
             the_index %= self.table_size
