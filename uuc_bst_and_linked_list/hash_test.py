@@ -129,8 +129,24 @@ class TestHashTable(unittest.TestCase):
             sorted(string_master.ssn_list))
 
     def test_checking_if_an_item_exists_after_some_deletions(self):
-        self.skipTest("Need to write test that fails (i.e. breaking the bridge by deleting... looking for friend in mall etc...")
 
+        # Creates a uuc.table_size of 11 w/ multiple duplicate "desired parking spots" (hash keys)
+        students = [
+            StudentFactory.create_dummy_from_ssn("000-00-0001"),
+            StudentFactory.create_dummy_from_ssn("000-00-0100"),
+            StudentFactory.create_dummy_from_ssn("000-01-0000"),
+            StudentFactory.create_dummy_from_ssn("001-00-0000"),
+            StudentFactory.create_dummy_from_ssn("100-00-0000")
+        ]
+
+        uuc = HashTable(len(students))
+
+        for student in students:
+            uuc.insert(student)
+
+        self.assertTrue(uuc.exists(students[3]))
+        self.assertTrue(uuc.delete(students[2]))
+        self.assertTrue(uuc.exists(students[3]))
 
 if __name__ == '__main__':
     unittest.main()
