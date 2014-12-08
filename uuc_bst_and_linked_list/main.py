@@ -1,10 +1,11 @@
-from student import Student, StudentFactory, StudentListFetcher
+from student import Student, StudentFactory
 from uuc import UnorderedUniqueContainer
 from linked_list import LinkedList
 from bst import Bst
+from hash import HashTable
 import time
 
-USE_MEDIUM = True
+USE_MEDIUM = False
 
 
 def section_header(contents, pad_deep = 15):
@@ -21,23 +22,25 @@ def do_insert(uuc):
     """
     Insert - Detect any duplicate objects. That is, if a student has the same SSN as a previous student, do not add that student. Instead, print an error message.
     """
-    list_fetcher = StudentListFetcher()
     file_name = 'InsertNamesMedium.txt' if USE_MEDIUM else 'InsertNames.txt'
-    lines_list = list_fetcher.get_list_of_lines(file_name)
+    f = open("./data_students_txt/" + file_name, "r+")
     print section_header("Insert")
     time_start = time.time()
     failed = 0
-    for line in lines_list:
-        new_student = StudentFactory.create_from_insert_row_string(line)
+    for line in f:
+        try:
+            new_student = StudentFactory.create_from_insert_row_string(line)
+        except ValueError:
+            continue
         if not uuc.insert(new_student):
             if not USE_MEDIUM:
                 print "Duplicate SSN ({1}) for {0}".format(new_student, new_student.ssn)
             failed += 1
             continue
+    f.close()
     print "Num failed: ", failed
-    print "Read Length: {0:,d} | Results Length: {1:,d}".format(len(lines_list), uuc.size())
+    print "Total Number Students: {0:,d}".format(uuc.size())
     print section_timing_footer(time.time() - time_start)
-    return list_fetcher
 
 
 def do_traverse(uuc):
@@ -62,17 +65,19 @@ def do_delete(uuc):
     Delete all students in DeleteNames.txt, and print how long that took.
     """
     print section_header("Delete")
-    list_fetcher = StudentListFetcher()
     time_start = time.time()
     file_name = 'DeleteNamesMedium.txt' if USE_MEDIUM else 'DeleteNames.txt'
-    delete_names_ssn_list = list_fetcher.get_list_of_lines(file_name)
+    f = open("./data_students_txt/" + file_name, "r+")
     failed = 0
-    for delete_ssn in delete_names_ssn_list:
+    for delete_ssn in f:
+        delete_ssn = delete_ssn.replace("\r", "").replace("\n", "")
         temp_student = StudentFactory.create_dummy_from_ssn(delete_ssn)
         if not uuc.delete(temp_student):
             if not USE_MEDIUM:
                 print "Could not find {ssn} for delete!!".format(**{'ssn': delete_ssn})
+                # exit()
             failed += 1
+    f.close()
     print "Num failed: ", failed
     print section_timing_footer(time.time() - time_start)
 
@@ -82,14 +87,14 @@ def do_retrieve(uuc):
     Retrieve all students in RetrieveNames.txt, print their average age (again, with decimal accuracy), and how long that took.
     """
     print section_header("Retrieve")
-    list_fetcher = StudentListFetcher()
     file_name = 'RetrieveNamesMedium.txt' if USE_MEDIUM else 'RetrieveNames.txt'
-    retrieve_students_ssn_list = list_fetcher.get_list_of_lines(file_name)
+    f = open("./data_students_txt/" + file_name, "r+")
     time_start = time.time()
     age_sum = 0
     num_retrieved = 0
     failed = 0
-    for ssn in retrieve_students_ssn_list:
+    for ssn in f:
+        ssn = ssn.replace("\r", "").replace("\n", "")
         temp_student = StudentFactory.create_dummy_from_ssn(ssn)
         found_student = uuc.retrieve(temp_student)
         if found_student:
@@ -99,15 +104,15 @@ def do_retrieve(uuc):
             if not USE_MEDIUM:
                 print "Could not find {ssn} for retrieve!!".format(**{'ssn': ssn})
             failed += 1
+    f.close()
     print "Num failed: ", failed
     average_age = age_sum / float(num_retrieved)
-    print "Average age for {0:,d} students: {1:.10f}".format(len(retrieve_students_ssn_list), average_age)
+    print "Average age for {0:,d} students: {1:.10f}".format(num_retrieved, average_age)
     print section_timing_footer(time.time() - time_start)
 
 
-def main():
-    uuc = Bst()
-    print section_header("Student List Fun BST (Assignment Part 02)", 20)
+def run_the_gamut(uuc):
+    print ("=" * 60) + section_header("Running Student List Gamut ({0})".format(uuc.__class__.__name__), 20) + "=" * 60
     time_master_start = time.time()
 
     do_insert(uuc)
@@ -115,23 +120,23 @@ def main():
     do_delete(uuc)
     do_retrieve(uuc)
 
-    print section_header("END Student List Fun", 20)
-    print "Total Execution time: {0:.3f} seconds".format(time.time() - time_master_start)
+    print section_header("END Running Student List Gamut ({0})".format(uuc.__class__.__name__), 20)
+    print "Total Execution time: {0:.3f} seconds".format(time.time() - time_master_start) + "\n\n"
 
-    # uuc = LinkedList()
-    #
-    # print section_header("Student List Fun LinkedList (Assignment Part 02)", 20)
-    # time_master_start = time.time()
-    #
-    # do_insert(uuc)
-    # do_traverse(uuc)
-    # do_delete(uuc)
-    # do_retrieve(uuc)
-    #
-    # print section_header("END Student List Fun", 20)
-    # print "Total Execution time: {0:.3f} seconds".format(time.time() - time_master_start)
 
-    print section_header("Goodbye", 25)
+def main():
+    global USE_MEDIUM
+    USE_MEDIUM = False
+
+    # - - - Linked List
+    # run_the_gamut(LinkedList())
+
+    # - - - Binary Search Tree
+    run_the_gamut(Bst())
+
+    # - - - Hash Table
+    hash_table_item_count = 300000 if USE_MEDIUM else 30000
+    run_the_gamut(HashTable(hash_table_item_count))
 
 
 main()

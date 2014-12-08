@@ -45,7 +45,7 @@ class StudentFactory:
     def create_from_insert_row_string(row_string):
         split = row_string.split(" ")
         if len(split) != 5:
-            raise Exception("Could not properly split and create student from ", row_string)
+            raise ValueError("Could not properly split and create student from ", row_string)
         last_name = split[0]
         first_name = split[1]
         ssn = split[2]
