@@ -5,8 +5,6 @@ from bst import Bst
 from hash import HashTable
 import time
 
-USE_MEDIUM = False
-
 
 def section_header(contents, pad_deep = 15):
     header_format = "\n" + "=" * pad_deep + " {0}\n"
@@ -18,12 +16,20 @@ def section_timing_footer(time_elapsed):
     return section_timing_template.format(time_elapsed)
 
 
+def data_file_path(file_name_title):
+    file_name = file_name_title + "Names"
+    if USE_MEDIUM:
+        file_name += "Medium"
+    file_name = "./data_students_txt/" + file_name + ".txt"
+    return file_name
+
+
 def do_insert(uuc):
     """
     Insert - Detect any duplicate objects. That is, if a student has the same SSN as a previous student, do not add that student. Instead, print an error message.
     """
-    file_name = 'InsertNamesMedium.txt' if USE_MEDIUM else 'InsertNames.txt'
-    f = open("./data_students_txt/" + file_name, "r+")
+    file_path = data_file_path("Insert")
+    f = open(file_path, "r+")
     print section_header("Insert")
     time_start = time.time()
     failed = 0
@@ -66,8 +72,8 @@ def do_delete(uuc):
     """
     print section_header("Delete")
     time_start = time.time()
-    file_name = 'DeleteNamesMedium.txt' if USE_MEDIUM else 'DeleteNames.txt'
-    f = open("./data_students_txt/" + file_name, "r+")
+    file_path = data_file_path("Delete")
+    f = open(file_path, "r+")
     failed = 0
     for delete_ssn in f:
         delete_ssn = delete_ssn.replace("\r", "").replace("\n", "")
@@ -86,9 +92,8 @@ def do_retrieve(uuc):
     """
     Retrieve all students in RetrieveNames.txt, print their average age (again, with decimal accuracy), and how long that took.
     """
-    print section_header("Retrieve")
-    file_name = 'RetrieveNamesMedium.txt' if USE_MEDIUM else 'RetrieveNames.txt'
-    f = open("./data_students_txt/" + file_name, "r+")
+    file_path = data_file_path("Retrieve")
+    f = open(file_path, "r+")
     time_start = time.time()
     age_sum = 0
     num_retrieved = 0
@@ -126,7 +131,7 @@ def run_the_gamut(uuc):
 
 def main():
     global USE_MEDIUM
-    USE_MEDIUM = False
+    USE_MEDIUM = True
 
     # - - - Linked List
     # run_the_gamut(LinkedList())
